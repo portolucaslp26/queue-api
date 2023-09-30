@@ -1,0 +1,17 @@
+server:
+  port: 8000
+logging:
+  level:
+    root: INFO
+    com.example: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+swagger:
+  enabled: true
+  api:
+    version: 1.0
+    title: Queue API
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
