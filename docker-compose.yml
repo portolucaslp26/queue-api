@@ -1,6 +1,6 @@
 version: '3'
 services:
-  queue-api:
-    build: .
+  queue_api:
+    image: lorenzo2017/queue_api
     ports:
       - "8000:8000"

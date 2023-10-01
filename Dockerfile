@@ -1,11 +1,7 @@
-# Stage 1: Build the application
-FROM maven:3.8.4-openjdk-17-slim AS build
+FROM maven:3.8.4-openjdk-17
 WORKDIR /app
-COPY . /app
-RUN mvn clean install
-
-# Stage 2: Package the application into a lightweight container
-FROM openjdk:17-slim
-COPY --from=build /app/target/queue-api.jar /app/queue-api.jar
-EXPOSE 8000
+COPY . .
+RUN mvn package
+RUN cp target/devel-0.0.1-SNAPSHOT.jar .
+RUN ls
 CMD ["java", "-jar", "devel-0.0.1-SNAPSHOT.jar"]

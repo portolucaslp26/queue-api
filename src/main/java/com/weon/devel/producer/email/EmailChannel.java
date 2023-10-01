@@ -31,7 +31,7 @@ public class EmailChannel implements Channel {
     
     public EmailChannel(UUID id, LocalDateTime dateTime, String sourceEmail, String destinationEmail) {
         this.id =  UUID.randomUUID();
-        setDestinationEmail(sourceEmail);
+        setSourceEmail(sourceEmail);
         setDestinationEmail(destinationEmail);
         this.dateTime = LocalDateTime.now();
     }
