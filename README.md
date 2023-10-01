@@ -12,6 +12,10 @@ Para facilitar a configuração, a API está em uma imagem docker, onde não se 
 
 - Docker instalado em seu sistema. [Instruções de instalação do Docker](https://docs.docker.com/get-docker/)
 - Navegador da web para acessar a documentação Swagger.
+- Obs.: Se você usa Windows e é a primeira vez que usa Docker, pode ocorrer um erro comum referente ao WSL. Caso ocorra para você, rode o seguinte comando (como administrador):
+```
+wsl --update
+```
 
 ### Passos para Executar a Aplicação com Docker
 
