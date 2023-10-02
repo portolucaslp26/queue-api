@@ -3,7 +3,7 @@
 
 ## Descrição
 
-Este projeto consiste em uma api de criação de filas do tipo FIFO, onde é possível enfileirar 3 tipos de mensagens. Voz, E-mail e Chat.
+Este projeto consiste em uma api de criação de filas do tipo FIFO, onde é possível enfileirar e consumir 3 tipos de mensagens. Voz, E-mail e Chat.
 Para facilitar a configuração, a API está em uma imagem docker, onde não se faz necessária a configuração de JDK e variáveis de ambiente. Apenas o docker instalado. Seguem as instruções:
 
 ## Como Usar
