@@ -3,6 +3,9 @@ package com.weon.devel.queue.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.weon.devel.producer.email.EmailChannel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +38,9 @@ public class QueueController {
     @Autowired
     private ProduceFactory produceFactory;
 
+    private static final Logger logger = LoggerFactory.getLogger(EmailChannel.class);
+
+
     @PostMapping("/enqueue/{type}")
     // The @Operation annotation is for manually configuring documentation on swagger.io
     @Operation(summary = "Enqueue a new item", description = "Enqueue a new item. The request body depends on the type parameter: \n\n" +
@@ -48,6 +54,7 @@ public class QueueController {
             })))
     public ResponseEntity<String> enqueue(@PathVariable String type, @RequestBody QueueObject item) {
         try {
+
             Producer producer = produceFactory.createProducer(type);
             Channel channel = null;
             
@@ -59,7 +66,16 @@ public class QueueController {
             } else if (type.equalsIgnoreCase("chat")) {
             	channel = producer.createChatChannel(item.getId(), LocalDateTime.now(), item.getSource(), item.getDestination());
             } else {
-                return ResponseEntity.badRequest().body("Tipo de canal inválido.");
+                return ResponseEntity.badRequest().body("Invalid channel type.");
+            }
+
+            logger.info("Tipo: " + type);
+            logger.info("ID: " + item.getId());
+            logger.info("Source: " + item.getSource());
+            logger.info("Destination: " + item.getDestination());
+
+            if (channel == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error enqueuing item: Internal Server Error");
             }
             
             channel.executeCommand();
@@ -68,6 +84,7 @@ public class QueueController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body("Item queued successfully.");
         } catch (Exception e) {
+            logger.error("Error enqueuing item: " + e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error enqueuing item: " + e.getMessage());
         }
     }

@@ -54,6 +54,7 @@ public class EmailChannel implements Channel {
     }
 
     public void setSourceEmail(String sourceEmail) {
+        validator.validateEmail(sourceEmail);
         this.sourceEmail = sourceEmail;
     }
 
